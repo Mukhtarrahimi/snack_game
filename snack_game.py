@@ -1,7 +1,7 @@
 from tkinter import *
+import random
 
 # class snack
-
 class Snack:
     def __init__(self):
         self.body_size = BODY_SIZE
@@ -14,7 +14,14 @@ class Snack:
         for x, y in self.coordinates:
             square = convas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = SNACK_COLOR)
             self.squares.append(square)
-            
+
+# class food
+class Food:
+    def __init__(self):
+        x = random.randint(0, (GAME_WIDTH // SPACE_SIZE) -1) * SPACE_SIZE
+        y = random.randint(0, (GAME_HEIGHT // SPACE_SIZE) -1) * SPACE_SIZE
+        self.coordinates = [x, y]
+        convas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = FOOD_COLOR, tag="food")
 # restart game function
 def restart_game():
     pass
@@ -62,5 +69,6 @@ print(x, y)
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 snack = Snack()
+food = Food()
 
 window.mainloop()

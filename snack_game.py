@@ -1,5 +1,7 @@
 from tkinter import *
 import random
+import os
+import sys
 
 # class snack
 class Snack:
@@ -24,17 +26,78 @@ class Food:
         convas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = FOOD_COLOR, tag="food")
 
 # next_direction 
-def next_direction():
-    pass
+def next_direction(snack, food):
+    x,y = snack.coordinates[0]
+    if direction == "up":
+        y -= SPACE_SIZE
+    elif direction == "down":
+        y += SPACE_SIZE
+    elif direction == "left":
+        x -= SPACE_SIZE
+    elif direction == "right":
+        x += SPACE_SIZE
+    
+    snack.coordinates.insert(0, [x,y])
+    square = convas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = SNACK_COLOR)
+    snack.squares.insert(0, square)
+    
+    if x == food.coordinates[0] and y == food.coordinates[1]:
+        global score
+        score += 1
+        label.config(text = f"score : {score}")
+        convas.delete("food")
+        food = Food()
+    else:
+        del snack.coordinates[-1]
+        convas.delete(snack.squares[-1])
+        del snack.squares[-1]
+    
+    if check_game_over():
+        game_over()
+    else:
+        window.after(SLOWNESS, next_direction, snack, food)
+        
 
 
 # change direction
-def change_direction():
-    pass
+def change_direction(new_dir):
+    global direction
+    if new_dir == "left":
+        if direction != "right":
+            direction = new_dir
+    elif new_dir == "right":
+        if direction != "left":
+            direction = new_dir
+    elif new_dir == "up":
+        if direction != "down":
+            direction = new_dir
+    elif new_dir == "down":
+        if direction != "up":
+            direction = new_dir
+
+# check game over
+def check_game_over(snack):
+    x, y = snack.coordinates[0]
+    if x < 0 or x > GAME_WIDTH:
+        return True
+    if y < 0 or y > GAME_HEIGHT:
+        return True
+    
+    for sq in snack.coordinates[1:]:
+        if x == sq[0] and y == sq[1]:
+            return True
+    return False
+
+# game over
+def game_over():
+    convas.delete(ALL)
+    convas.create_text(convas.winfo_width() / 2, convas.winfo_height() / 2, font =("terminal", 60),
+    text = "GAME OVER", fill = "red", tag="gameover")
 
 # restart game function
 def restart_game():
-    pass
+    path = sys.executable
+    os.execl(path, path, *sys.argv)
 
 
 # ------------ const variable -------------
@@ -83,7 +146,9 @@ window.bind("<Right>", lambda event: change_direction("right"))
 window.bind("<Up>", lambda event: change_direction("up"))
 window.bind("<Down>", lambda event: change_direction("down"))
 
+
 snack = Snack()
 food = Food()
+next_direction(snack, food)
 
 window.mainloop()

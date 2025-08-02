@@ -22,6 +22,16 @@ class Food:
         y = random.randint(0, (GAME_HEIGHT // SPACE_SIZE) -1) * SPACE_SIZE
         self.coordinates = [x, y]
         convas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = FOOD_COLOR, tag="food")
+
+# next_direction 
+def next_direction():
+    pass
+
+
+# change direction
+def change_direction():
+    pass
+
 # restart game function
 def restart_game():
     pass
@@ -67,6 +77,11 @@ y = int((screen_height / 2) - (window_height / 2))
 print(x, y)
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+window.bind("<Left>", lambda event: change_direction("left"))
+window.bind("<Right>", lambda event: change_direction("right"))
+window.bind("<Up>", lambda event: change_direction("up"))
+window.bind("<Down>", lambda event: change_direction("down"))
 
 snack = Snack()
 food = Food()

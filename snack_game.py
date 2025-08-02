@@ -1,5 +1,9 @@
 from tkinter import *
 
+# class snack
+
+
+    
 # restart game function
 def restart_game():
     pass
@@ -12,6 +16,7 @@ GAME_WIDTH = 400
 GAME_HEIGHT = 400
 SPACE_SIZE = 30
 SLOWNESS = 200
+BODY_SIZE = 2
 SNACK_COLOR = "yellow"
 BAKCGROUND_COLOR = "black"
 FOOD_COLOR = "red"
@@ -29,7 +34,7 @@ label.pack()
 convas = Canvas(window, width=GAME_WIDTH, height=GAME_HEIGHT, bg=BAKCGROUND_COLOR)
 convas.pack()
 
-restart = Button(window, text="RESTART", fg="white", command=lambda: restart_game())
+restart = Button(window, text="RESTART", fg="white", bg="red" , command=lambda: restart_game())
 restart.pack()
 
 window.update()
@@ -41,5 +46,9 @@ screen_height = window.winfo_screenheight()
 
 x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
+print(x, y)
+
+window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
 
 window.mainloop()

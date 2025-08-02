@@ -2,8 +2,19 @@ from tkinter import *
 
 # class snack
 
-
-    
+class Snack:
+    def __init__(self):
+        self.body_size = BODY_SIZE
+        self.coordinates = []
+        self.squares = []
+        
+        for i in range(0, BODY_SIZE):
+            self.coordinates.append([0, 0])
+        
+        for x, y in self.coordinates:
+            square = convas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill = SNACK_COLOR)
+            self.squares.append(square)
+            
 # restart game function
 def restart_game():
     pass
@@ -50,5 +61,6 @@ print(x, y)
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
+snack = Snack()
 
 window.mainloop()
